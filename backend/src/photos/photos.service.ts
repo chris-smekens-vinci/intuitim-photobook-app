@@ -19,20 +19,20 @@ export class PhotosService {
     return this.photoModel.find().exec();
   }
 
-  async findById(id: string): Promise<PhotoDocument> {
+  async findById(id: string): Promise<PhotoDocument | null> {
     return this.photoModel.findById(id).exec();
   }
 
   async update(
     id: string,
     updatePhotoDto: CreatePhotoDto,
-  ): Promise<PhotoDocument> {
+  ): Promise<PhotoDocument | null> {
     return this.photoModel
       .findByIdAndUpdate(id, updatePhotoDto, { new: true })
       .exec();
   }
 
-  async delete(id: string): Promise<PhotoDocument> {
+  async delete(id: string): Promise<PhotoDocument | null> {
     return this.photoModel.findByIdAndDelete(id).exec();
   }
 }
