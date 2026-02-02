@@ -1,5 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
+import * as mongoose from 'mongoose';
+import { Category } from '../../categories/schemas/category.schema';
 
 export type PhotoDocument = HydratedDocument<Photo>;
 
@@ -11,14 +13,21 @@ export class Photo {
   @Prop({ required: true })
   url: string;
 
+  @Prop({
+    required: true,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: Category.name,
+  })
+  category: mongoose.Types.ObjectId;
+
+  @Prop({ required: true })
+  dateOfRealization: Date; // realization date of the photo
+
   @Prop()
   description?: string;
 
-  @Prop({ default: Date.now })
-  createdAt: Date;
-
-  @Prop({ default: Date.now })
-  updatedAt: Date;
+  @Prop({ default: false })
+  isDeleted: boolean;
 }
 
 export const PhotoSchema = SchemaFactory.createForClass(Photo);
