@@ -16,8 +16,14 @@ export class PhotosService {
     return createdPhoto.save();
   }
 
-  async findAll(): Promise<PhotoDocument[]> {
-    return this.photoModel.find().exec();
+  async findAll(includeDeleted = false): Promise<PhotoDocument[]> {
+    if (includeDeleted) {
+      return this.photoModel.find().exec();
+    }
+    // return photos that are not deleted (isDeleted absent or false)
+    return this.photoModel
+      .find({ $or: [{ isDeleted: { $exists: false } }, { isDeleted: false }] })
+      .exec();
   }
 
   async findById(id: string): Promise<PhotoDocument | null> {
@@ -34,7 +40,10 @@ export class PhotosService {
   }
 
   async delete(id: string): Promise<PhotoDocument | null> {
-    return this.photoModel.findByIdAndDelete(id).exec();
+    // soft-delete : mark isDeleted = true and return the updated document
+    return this.photoModel
+      .findByIdAndUpdate(id, { isDeleted: true }, { new: true })
+      .exec();
   }
 
   async addComment(
