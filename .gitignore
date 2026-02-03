@@ -1,3 +1,11 @@
-# Files
-
+# Files MAC OS
 .DS_Store
+.env
+.env.local
+.env.*.local
+#Files Windows
+Thumbs.db
+#Files Linux
+.env
+*.env
+.idea/
