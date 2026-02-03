@@ -1,4 +1,11 @@
-import { IsString, IsOptional, IsUrl } from 'class-validator';
+import {
+  IsString,
+  IsOptional,
+  IsUrl,
+  IsDate,
+  IsMongoId,
+} from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class CreatePhotoDto {
   @IsString()
@@ -6,6 +13,13 @@ export class CreatePhotoDto {
 
   @IsUrl()
   url: string;
+
+  @IsMongoId()
+  category: string;
+
+  @Type(() => Date) // Transform input JSON to Date object
+  @IsDate()
+  dateOfRealization: Date;
 
   @IsOptional()
   @IsString()
