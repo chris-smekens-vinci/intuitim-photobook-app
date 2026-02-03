@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Photo, PhotoDocument } from './schemas/photo.schema';
 import { CreatePhotoDto } from './dto/create-photo.dto';
+import { CreateCommentDto } from '../comments/dto/create-comment.dto';
 
 @Injectable()
 export class PhotosService {
@@ -34,5 +35,29 @@ export class PhotosService {
 
   async delete(id: string): Promise<PhotoDocument | null> {
     return this.photoModel.findByIdAndDelete(id).exec();
+  }
+
+  async addComment(
+    photoId: string,
+    createCommentDto: CreateCommentDto,
+  ): Promise<PhotoDocument | null> {
+    const comment = {
+      content: createCommentDto.content,
+      createdAt: new Date(),
+    };
+    return this.photoModel
+      .findByIdAndUpdate(
+        photoId,
+        { $push: { comments: comment } },
+        { new: true },
+      )
+      .exec();
+  }
+
+  async getComments(photoId: string) {
+    const photo = await this.photoModel
+      .findById(photoId, { comments: 1 })
+      .exec();
+    return photo?.comments ?? [];
   }
 }

@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { PhotosService } from './photos.service';
 import { CreatePhotoDto } from './dto/create-photo.dto';
+import { CreateCommentDto } from '../comments/dto/create-comment.dto';
 
 @Controller('photos')
 export class PhotosController {
@@ -37,5 +38,18 @@ export class PhotosController {
   @Delete(':id')
   delete(@Param('id') id: string) {
     return this.photosService.delete(id);
+  }
+
+  @Post(':id/comments')
+  addComment(
+    @Param('id') id: string,
+    @Body() createCommentDto: CreateCommentDto,
+  ) {
+    return this.photosService.addComment(id, createCommentDto);
+  }
+
+  @Get(':id/comments')
+  getComments(@Param('id') id: string) {
+    return this.photosService.getComments(id);
   }
 }
