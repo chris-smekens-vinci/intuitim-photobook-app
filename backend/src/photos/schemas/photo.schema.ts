@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 import * as mongoose from 'mongoose';
 import { Category } from '../../categories/schemas/category.schema';
+import { Comment, CommentSchema } from '../../comments/schemas/comment.schema';
 
 export type PhotoDocument = HydratedDocument<Photo>;
 
@@ -25,6 +26,9 @@ export class Photo {
 
   @Prop()
   description?: string;
+
+  @Prop({ type: [CommentSchema], default: [] })
+  comments: Comment[];
 
   @Prop({ default: false })
   isDeleted: boolean;
