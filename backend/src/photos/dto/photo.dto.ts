@@ -6,6 +6,7 @@ import {
   IsMongoId,
 } from 'class-validator';
 import { Type } from 'class-transformer';
+import { CommentDto } from '../../comments/dto/comment.dto';
 
 export class PhotoDto {
   @IsString()
