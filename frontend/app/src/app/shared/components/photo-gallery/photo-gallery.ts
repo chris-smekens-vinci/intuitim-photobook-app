@@ -22,8 +22,10 @@ export class PhotoGallery implements OnInit {
   }
 
   loadPhotos(): void {
+    console.log('Chargement des photos...');
     this.photoService.getPhotos().subscribe({
       next: (data) => {
+        console.log('Photos reçues:', data);
         this.photos = data;
         this.loading = false;
         if (data.length > 0) {
@@ -31,9 +33,9 @@ export class PhotoGallery implements OnInit {
         }
       },
       error: (err) => {
+        console.error('Erreur API:', err);
         this.error = 'Erreur lors du chargement des photos';
         this.loading = false;
-        console.error(err);
       }
     });
   }

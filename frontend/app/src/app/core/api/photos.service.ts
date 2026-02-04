@@ -24,9 +24,12 @@ export interface PhotoDto {
 export class PhotoService {
   private apiUrl = 'http://localhost:3000/api/photos';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    console.log('PhotoService initialisé avec URL:', this.apiUrl);
+  }
 
   getPhotos(): Observable<PhotoDto[]> {
+    console.log('GET request to:', this.apiUrl);
     return this.http.get<PhotoDto[]>(this.apiUrl);
   }
 
