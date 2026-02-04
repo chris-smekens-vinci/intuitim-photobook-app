@@ -36,4 +36,8 @@ export class PhotoService {
   getPhotoById(id: string): Observable<PhotoDto> {
     return this.http.get<PhotoDto>(`${this.apiUrl}/${id}`);
   }
+
+  addComment(photoId: string, content: string): Observable<PhotoDto> {
+    return this.http.post<PhotoDto>(`${this.apiUrl}/${photoId}/comments`, { content });
+  }
 }

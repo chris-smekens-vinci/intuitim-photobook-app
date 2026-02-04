@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
+import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PhotoService, PhotoDto } from '../../../core/api/photos.service';
 
 @Component({
@@ -7,15 +8,20 @@ import { PhotoService, PhotoDto } from '../../../core/api/photos.service';
   templateUrl: './photo-gallery.html',
   styleUrls: ['./photo-gallery.css'],
   standalone: true,
-  imports: [CommonModule, DatePipe]
+  imports: [CommonModule, DatePipe, FormsModule, ReactiveFormsModule]
 })
 export class PhotoGallery implements OnInit {
   photos: PhotoDto[] = [];
   selectedPhoto: PhotoDto | null = null;
   loading: boolean = true;
   error: string | null = null;
+  commentForm: FormGroup;
 
-  constructor(private photoService: PhotoService) {}
+  constructor(private photoService: PhotoService, private fb: FormBuilder) {
+    this.commentForm = this.fb.group({
+      content: ['', [Validators.required, this.punctuationValidator.bind(this)]]
+    });
+  }
 
   ngOnInit(): void {
     this.loadPhotos();
@@ -42,6 +48,34 @@ export class PhotoGallery implements OnInit {
 
   selectPhoto(photo: PhotoDto): void {
     this.selectedPhoto = photo;
+    this.commentForm.reset();
+  }
+
+  punctuationValidator(control: any) {
+    if (!control.value) {
+      return null;
+    }
+    const validEndings = /[.!?]$/;
+    return validEndings.test(control.value) ? null : { missingPunctuation: true };
+  }
+
+  addComment(): void {
+    if (this.commentForm.invalid || !this.selectedPhoto) {
+      return;
+    }
+
+    const content = this.commentForm.get('content')?.value;
+    this.photoService.addComment(this.selectedPhoto._id, content).subscribe({
+      next: (updatedPhoto) => {
+        console.log('Commentaire ajouté:', updatedPhoto);
+        this.selectedPhoto = updatedPhoto;
+        this.commentForm.reset();
+      },
+      error: (err) => {
+        console.error('Erreur lors de l\'ajout du commentaire:', err);
+        this.error = 'Erreur lors de l\'ajout du commentaire';
+      }
+    });
   }
 
   trackById(index: number, photo: PhotoDto): string {
