@@ -9,15 +9,17 @@ import { Type } from 'class-transformer';
 import { CommentDto } from '../../comments/dto/comment.dto';
 
 export class PhotoDto {
+  @IsMongoId()
+  _id: string;
+
   @IsString()
   title: string;
 
   @IsUrl()
   url: string;
 
-  @IsMongoId()
-  @Type(() => String)
   category: {
+    _id?: string;
     name: string;
   };
 
@@ -29,6 +31,7 @@ export class PhotoDto {
   @IsString()
   description?: string;
 
+  @IsOptional()
   @Type(() => CommentDto)
-  comments: CommentDto[];
+  comments?: CommentDto[];
 }

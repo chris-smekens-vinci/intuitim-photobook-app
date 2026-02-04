@@ -7,7 +7,7 @@ export interface PhotoDto {
   title: string;
   url: string;
   category: {
-    _id: string;
+    _id?: string;
     name: string;
   };
   dateOfRealization: Date;

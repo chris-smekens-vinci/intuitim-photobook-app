@@ -5,6 +5,7 @@ import { Photo, PhotoDocument } from './schemas/photo.schema';
 import { CreatePhotoDto } from './dto/create-photo.dto';
 import { CreateCommentDto } from '../comments/dto/create-comment.dto';
 import { PhotoDto } from './dto/photo.dto';
+import { Category } from '../categories/schemas/category.schema';
 
 @Injectable()
 export class PhotosService {
@@ -29,7 +30,7 @@ export class PhotosService {
     return photos.map((photo) => this.mapToDto(photo));
   }
 
-  async findById(id: string): Promise<PhotoDto | null> {
+  async findById(id: string): Promise<PhotoDto> {
     const photo = await this.photoModel
       .findById(id)
       .populate('category')
@@ -40,10 +41,7 @@ export class PhotosService {
     return this.mapToDto(photo);
   }
 
-  async update(
-    id: string,
-    updatePhotoDto: CreatePhotoDto,
-  ): Promise<PhotoDto | null> {
+  async update(id: string, updatePhotoDto: CreatePhotoDto): Promise<PhotoDto> {
     const updated = await this.photoModel
       .findByIdAndUpdate(id, updatePhotoDto, { new: true })
       .populate('category')
@@ -55,8 +53,7 @@ export class PhotosService {
     return this.mapToDto(updated);
   }
 
-  async delete(id: string): Promise<PhotoDto | null> {
-    // soft delete: set isDeleted to true instead of removing the document
+  async delete(id: string): Promise<PhotoDto> {
     const deleted = await this.photoModel
       .findByIdAndUpdate(id, { isDeleted: true }, { new: true })
       .populate('category')
@@ -71,7 +68,7 @@ export class PhotosService {
   async addComment(
     photoId: string,
     createCommentDto: CreateCommentDto,
-  ): Promise<PhotoDto | null> {
+  ): Promise<PhotoDto> {
     const comment = {
       content: createCommentDto.content,
       createdAt: new Date(),
@@ -99,12 +96,15 @@ export class PhotosService {
   }
 
   private mapToDto(photo: PhotoDocument): PhotoDto {
+    const category = photo.populated('category') as Category;
+
     return {
+      _id: photo._id.toString(),
       title: photo.title,
       url: photo.url,
       dateOfRealization: photo.dateOfRealization,
       category: {
-        name: photo.category?.name ?? 'Unknown',
+        name: category?.name ?? 'Unknown',
       },
       description: photo.description,
       comments: photo.comments || [],
