@@ -50,14 +50,39 @@
         <p *ngIf="selectedPhoto.description" class="detail-description">
           <strong>Description:</strong> {{ selectedPhoto.description }}
         </p>
-        <div *ngIf="selectedPhoto.comments && selectedPhoto.comments.length > 0" class="detail-comments">
+        <div class="detail-comments">
           <strong>Commentaires:</strong>
-          <ul>
+          <ul *ngIf="selectedPhoto.comments && selectedPhoto.comments.length > 0">
             <li *ngFor="let comment of selectedPhoto.comments">
               <p>{{ comment.content }}</p>
               <small>{{ comment.createdAt | date: 'dd/MM/yyyy HH:mm' }}</small>
             </li>
           </ul>
+          <p *ngIf="!selectedPhoto.comments || selectedPhoto.comments.length === 0" class="no-comments">
+            Aucun commentaire pour le moment
+          </p>
+
+          <!-- Formulaire d'ajout de commentaire -->
+          <div class="comment-form">
+            <h3>Ajouter un commentaire</h3>
+            <form [formGroup]="commentForm">
+              <textarea
+                formControlName="content"
+                placeholder="Entrez votre commentaire (doit se terminer par . ! ou ?)"
+                class="comment-input"
+              ></textarea>
+              <div *ngIf="commentForm.get('content')?.hasError('missingPunctuation') && commentForm.get('content')?.touched" class="error-text">
+                Le commentaire doit se terminer par un point (.), un point d'exclamation (!) ou un point d'interrogation (?).
+              </div>
+              <button
+                (click)="addComment()"
+                [disabled]="commentForm.invalid"
+                class="submit-btn"
+              >
+                Ajouter le commentaire
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     </div>
