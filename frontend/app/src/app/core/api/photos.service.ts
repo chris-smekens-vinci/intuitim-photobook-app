@@ -22,7 +22,7 @@ export interface PhotoDto {
   providedIn: 'root',
 })
 export class PhotoService {
-  private apiUrl = '/api/photos';
+  private apiUrl = 'http://localhost:3000/api/photos';
 
   constructor(private http: HttpClient) {}
 

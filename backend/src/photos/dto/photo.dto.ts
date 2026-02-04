@@ -1,10 +1,4 @@
-import {
-  IsString,
-  IsOptional,
-  IsUrl,
-  IsDate,
-  IsMongoId,
-} from 'class-validator';
+import { IsString, IsOptional, IsMongoId } from 'class-validator';
 import { Type } from 'class-transformer';
 import { CommentDto } from '../../comments/dto/comment.dto';
 
@@ -15,7 +9,7 @@ export class PhotoDto {
   @IsString()
   title: string;
 
-  @IsUrl()
+  @IsString()
   url: string;
 
   category: {
@@ -23,7 +17,6 @@ export class PhotoDto {
     name: string;
   };
 
-  @IsDate()
   @Type(() => Date)
   dateOfRealization: Date;
 
