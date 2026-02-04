@@ -9,18 +9,56 @@
     {{ error }}
   </div>
 
-  <div *ngIf="!loading && photos.length > 0" class="photo-grid">
-    <div *ngFor="let photo of photos; trackBy: trackById" class="photo-card">
+  <div *ngIf="!loading && photos.length > 0" class="gallery-container">
+    <!-- Galerie de vignettes -->
+    <div class="photo-gallery">
+      <div 
+        *ngFor="let photo of photos; trackBy: trackById" 
+        class="photo-card"
+        [class.selected]="selectedPhoto?._id === photo._id"
+        (click)="selectPhoto(photo)"
+      >
+        <img 
+          [src]="photo.url" 
+          [alt]="photo.title" 
+        />
+        <div class="photo-info">
+          <h2>{{ photo.title }}</h2>
+          <p class="photo-date">
+            {{ photo.dateOfRealization | date: 'dd/MM/yyyy' }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Détails de la photo sélectionnée -->
+    <div *ngIf="selectedPhoto" class="photo-details">
       <img 
-        [src]="photo.url" 
-        [alt]="photo.title" 
+        [src]="selectedPhoto.url" 
+        [alt]="selectedPhoto.title"
+        class="detail-image"
       />
-      <div class="photo-info">
-        <h2>{{ photo.title }}</h2>
-        <p *ngIf="photo.description" class="photo-description">{{ photo.description }}</p>
-        <p class="photo-date">
-          {{ photo.dateOfRealization | date: 'dd/MM/yyyy' }}
+      <div class="detail-info">
+        <h1>{{ selectedPhoto.title }}</h1>
+        <p class="detail-category">
+          <strong>Catégorie:</strong> {{ selectedPhoto.category.name }}
         </p>
+        <p class="detail-date">
+          <strong>Date de réalisation:</strong> 
+          {{ selectedPhoto.dateOfRealization | date: 'dd/MM/yyyy' }}
+        </p>
+        <p *ngIf="selectedPhoto.description" class="detail-description">
+          <strong>Description:</strong> {{ selectedPhoto.description }}
+        </p>
+        <div *ngIf="selectedPhoto.comments && selectedPhoto.comments.length > 0" class="detail-comments">
+          <strong>Commentaires:</strong>
+          <ul>
+            <li *ngFor="let comment of selectedPhoto.comments">
+              <p>{{ comment.content }}</p>
+              <small>{{ comment.createdAt | date: 'dd/MM/yyyy HH:mm' }}</small>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
