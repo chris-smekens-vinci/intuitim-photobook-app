@@ -1,32 +1,31 @@
-<div class="container mx-auto p-8">
-  <h1 class="text-4xl font-bold mb-8">Intuitim PhotoBook</h1>
+<div class="container">
+  <h1>Intuitim PhotoBook</h1>
 
-  <div *ngIf="loading" class="text-center py-12">
-    <p class="text-gray-600">Chargement des photos...</p>
+  <div *ngIf="loading" class="loading">
+    <p>Chargement des photos...</p>
   </div>
 
-  <div *ngIf="error" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+  <div *ngIf="error" class="error-message">
     {{ error }}
   </div>
 
-  <div *ngIf="!loading && photos.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-    <div *ngFor="let photo of photos; trackBy: trackById" class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+  <div *ngIf="!loading && photos.length > 0" class="photo-grid">
+    <div *ngFor="let photo of photos; trackBy: trackById" class="photo-card">
       <img 
         [src]="photo.url" 
         [alt]="photo.title" 
-        class="w-full h-48 object-cover"
       />
-      <div class="p-4">
-        <h2 class="text-xl font-semibold mb-2">{{ photo.title }}</h2>
-        <p *ngIf="photo.description" class="text-gray-600 text-sm mb-3">{{ photo.description }}</p>
-        <p class="text-gray-500 text-xs">
+      <div class="photo-info">
+        <h2>{{ photo.title }}</h2>
+        <p *ngIf="photo.description" class="photo-description">{{ photo.description }}</p>
+        <p class="photo-date">
           {{ photo.dateOfRealization | date: 'dd/MM/yyyy' }}
         </p>
       </div>
     </div>
   </div>
 
-  <div *ngIf="!loading && photos.length === 0" class="text-center py-12">
-    <p class="text-gray-600">Aucune photo disponible</p>
+  <div *ngIf="!loading && photos.length === 0" class="empty-state">
+    <p>Aucune photo disponible</p>
   </div>
 </div>
