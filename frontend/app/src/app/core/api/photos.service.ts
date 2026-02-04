@@ -28,9 +28,12 @@ export class PhotoService {
     console.log('PhotoService initialisé avec URL:', this.apiUrl);
   }
 
-  getPhotos(): Observable<PhotoDto[]> {
-    console.log('GET request to:', this.apiUrl);
-    return this.http.get<PhotoDto[]>(this.apiUrl);
+  getPhotos(categoryId?: string): Observable<PhotoDto[]> {
+    const url = categoryId
+      ? `${this.apiUrl}?categoryId=${categoryId}`
+      : this.apiUrl;
+    console.log('GET request to:', url);
+    return this.http.get<PhotoDto[]>(url);
   }
 
   getPhotoById(id: string): Observable<PhotoDto> {

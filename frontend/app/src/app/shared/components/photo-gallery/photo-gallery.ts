@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PhotoService, PhotoDto } from '../../../core/api/photos.service';
+import { CategoryNav } from '../category/category-nav';
 
 @Component({
   selector: 'app-photo-gallery',
   templateUrl: './photo-gallery.html',
   styleUrls: ['./photo-gallery.css'],
   standalone: true,
-  imports: [CommonModule, DatePipe, FormsModule, ReactiveFormsModule]
+  imports: [CommonModule, DatePipe, FormsModule, ReactiveFormsModule, CategoryNav]
 })
 export class PhotoGallery implements OnInit {
   photos: PhotoDto[] = [];
@@ -16,6 +17,7 @@ export class PhotoGallery implements OnInit {
   loading: boolean = true;
   error: string | null = null;
   commentForm: FormGroup;
+  selectedCategoryId: string | null = null;
 
   constructor(private photoService: PhotoService, private fb: FormBuilder) {
     this.commentForm = this.fb.group({
@@ -27,9 +29,16 @@ export class PhotoGallery implements OnInit {
     this.loadPhotos();
   }
 
+  onCategorySelected(categoryId: string | null): void {
+    this.selectedCategoryId = categoryId;
+    this.selectedPhoto = null;
+    this.loadPhotos();
+  }
+
   loadPhotos(): void {
-    console.log('Chargement des photos...');
-    this.photoService.getPhotos().subscribe({
+    console.log('Chargement des photos pour la catégorie:', this.selectedCategoryId);
+    this.loading = true;
+    this.photoService.getPhotos(this.selectedCategoryId ?? undefined).subscribe({
       next: (data) => {
         console.log('Photos reçues:', data);
         this.photos = data;

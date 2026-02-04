@@ -1,3 +1,5 @@
+<app-category-nav (categorySelected)="onCategorySelected($event)"></app-category-nav>
+
 <div class="container">
   <h1>Intuitim PhotoBook</h1>
 
@@ -89,6 +91,6 @@
   </div>
 
   <div *ngIf="!loading && photos.length === 0" class="empty-state">
-    <p>Aucune photo disponible</p>
+    <p>Aucune photo disponible dans cette catégorie</p>
   </div>
 </div>
