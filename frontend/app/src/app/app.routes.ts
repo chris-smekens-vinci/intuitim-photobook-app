@@ -4,5 +4,5 @@ import { PhotoDetailsComponent } from './components/photo-details/photo-details.
 
 export const routes: Routes = [
   { path: '', component: PhotoGalleryComponent },
-  { path: 'photo/:id', component: PhotoDetailsComponent },
+  { path: 'photos/:id', component: PhotoDetailsComponent },
 ];
