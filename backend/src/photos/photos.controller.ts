@@ -6,6 +6,7 @@ import {
   Param,
   Put,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { PhotosService } from './photos.service';
 import { CreatePhotoDto } from './dto/create-photo.dto';
@@ -22,8 +23,8 @@ export class PhotosController {
   }
 
   @Get()
-  findAll(): Promise<PhotoDto[]> {
-    return this.photosService.findAll();
+  findAll(@Query('categoryId') categoryId?: string): Promise<PhotoDto[]> {
+    return this.photosService.findAll(false, categoryId);
   }
 
   @Get(':id')

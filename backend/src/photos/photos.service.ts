@@ -19,12 +19,19 @@ export class PhotosService {
     return this.mapToDto(saved);
   }
 
-  async findAll(includeDeleted = false): Promise<PhotoDto[]> {
-    const query = includeDeleted
+  async findAll(
+    includeDeleted = false,
+    categoryId?: string,
+  ): Promise<PhotoDto[]> {
+    let query = includeDeleted
       ? this.photoModel.find()
       : this.photoModel.find({
           $or: [{ isDeleted: { $exists: false } }, { isDeleted: false }],
         });
+
+    if (categoryId) {
+      query = query.where('category').equals(categoryId);
+    }
 
     const photos = await query.populate('category').exec();
     return photos.map((photo) => this.mapToDto(photo));
