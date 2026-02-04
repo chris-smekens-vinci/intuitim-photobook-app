@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { PhotoGallery } from './components/photo-gallery/photo-gallery.component';
+import { PhotoGallery } from './shared/components/photo-gallery/photo-gallery';
 // import { PhotoDetailsComponent } from './components/photo-details/photo-details.component';
 
 export const routes: Routes = [
