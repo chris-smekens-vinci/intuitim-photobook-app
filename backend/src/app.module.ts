@@ -6,9 +6,9 @@ import { AppService } from './app.service';
 
 @Module({
   imports: [
+    // prefer env var, otherwise connect to local Mongo without credentials for dev
     MongooseModule.forRoot(
-      process.env.MONGODB_URI ||
-        'mongodb://admin:password@localhost:27017/intuitim',
+      process.env.MONGODB_URI ?? 'mongodb://localhost:27017/intuitim',
     ),
     PhotosModule,
   ],
