@@ -1,0 +1,62 @@
+/* ...existing code... */
+.splash {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  background-image: url('https://images8.alphacoders.com/131/thumb-1920-1318500.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  animation: splashZoom 6s ease-in-out forwards;
+}
+
+.splash-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.25);
+  backdrop-filter: blur(2px);
+}
+
+.splash-content {
+  position: relative;
+  text-align: center;
+  color: #fff;
+  padding: 1rem 2rem;
+  transform: translateY(0);
+  animation: floatUp 1.2s ease;
+}
+
+.splash-content h1 {
+  font-size: 3.2rem;
+  margin: 0;
+  font-weight: 700;
+  text-shadow: 0 6px 18px rgba(0,0,0,0.5);
+}
+
+.splash-content .subtitle {
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  opacity: 0.95;
+}
+
+.app-root.hidden {
+  pointer-events: none;
+  user-select: none;
+  height: 100vh;
+  overflow: hidden;
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(8px); opacity: 0; }
+  60% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes splashZoom {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.02); }
+}
+/* ...existing code... */

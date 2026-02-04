@@ -1,3 +1,16 @@
 <app-photo-gallery>
 
-<router-outlet />
+<!-- Splash -->
+<div class="splash" *ngIf="showSplash">
+  <div class="splash-overlay"></div>
+  <div class="splash-content">
+    <h1>Intuitim Photobook</h1>
+    <p class="subtitle">by Chris Smekens</p>
+  </div>
+</div>
+
+<!-- Main app content -->
+<div class="app-root" [class.hidden]="showSplash">
+  <app-photo-gallery></app-photo-gallery>
+  <router-outlet></router-outlet>
+</div>
