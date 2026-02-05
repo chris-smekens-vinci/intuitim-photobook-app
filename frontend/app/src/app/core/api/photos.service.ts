@@ -16,6 +16,7 @@ export interface PhotoDto {
     content: string;
     createdAt: Date;
   }>;
+  isDeleted?: boolean;
 }
 
 @Injectable({
@@ -28,10 +29,21 @@ export class PhotoService {
     console.log('PhotoService initialisé avec URL:', this.apiUrl);
   }
 
-  getPhotos(categoryId?: string): Observable<PhotoDto[]> {
-    const url = categoryId
-      ? `${this.apiUrl}?categoryId=${categoryId}`
-      : this.apiUrl;
+  getPhotos(categoryId?: string, includeDeleted: boolean = false): Observable<PhotoDto[]> {
+    let url = this.apiUrl;
+    const params: string[] = [];
+    
+    if (categoryId) {
+      params.push(`categoryId=${categoryId}`);
+    }
+    if (includeDeleted) {
+      params.push(`includeDeleted=true`);
+    }
+    
+    if (params.length > 0) {
+      url += '?' + params.join('&');
+    }
+    
     console.log('GET request to:', url);
     return this.http.get<PhotoDto[]>(url);
   }

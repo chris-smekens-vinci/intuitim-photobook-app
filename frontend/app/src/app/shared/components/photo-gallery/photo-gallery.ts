@@ -18,6 +18,7 @@ export class PhotoGallery implements OnInit {
   error: string | null = null;
   commentForm: FormGroup;
   selectedCategoryId: string | null = null;
+  showDeleted: boolean = false;
 
   constructor(private photoService: PhotoService, private fb: FormBuilder) {
     this.commentForm = this.fb.group({
@@ -35,10 +36,15 @@ export class PhotoGallery implements OnInit {
     this.loadPhotos();
   }
 
+  toggleShowDeleted(): void {
+    this.showDeleted = !this.showDeleted;
+    this.loadPhotos();
+  }
+
   loadPhotos(): void {
     console.log('Chargement des photos pour la catégorie:', this.selectedCategoryId);
     this.loading = true;
-    this.photoService.getPhotos(this.selectedCategoryId ?? undefined).subscribe({
+    this.photoService.getPhotos(this.selectedCategoryId ?? undefined, this.showDeleted).subscribe({
       next: (data) => {
         console.log('Photos reçues:', data);
         this.photos = data;

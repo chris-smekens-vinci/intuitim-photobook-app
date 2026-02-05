@@ -199,6 +199,53 @@ h1 {
   margin-top: 0.5rem;
 }
 
+/* Filters control */
+.filter-controls {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+}
+
+.toggle-deleted-btn {
+  padding: 0.5rem 1rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Clash Display', sans-serif;
+  font-size: 0.9rem;
+}
+
+.toggle-deleted-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+.toggle-deleted-btn.active {
+  background-color: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.4);
+  color: #fca5a5;
+}
+
+/* Style pour les photos supprimées */
+.photo-card.deleted {
+  opacity: 0.6;
+  border: 2px dashed rgba(239, 68, 68, 0.5);
+}
+
+.photo-card.deleted::after {
+  content: '🗑️';
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  font-size: 1.2rem;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 50%;
+  padding: 0.25rem;
+}
+
 @media (max-width: 768px) {
   .gallery-container {
     grid-template-columns: 1fr;

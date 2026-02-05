@@ -23,8 +23,11 @@ export class PhotosController {
   }
 
   @Get()
-  findAll(@Query('categoryId') categoryId?: string): Promise<PhotoDto[]> {
-    return this.photosService.findAll(false, categoryId);
+  findAll(
+    @Query('categoryId') categoryId?: string,
+    @Query('includeDeleted') includeDeleted?: string,
+  ): Promise<PhotoDto[]> {
+    return this.photosService.findAll(includeDeleted === 'true', categoryId);
   }
 
   @Get(':id')
