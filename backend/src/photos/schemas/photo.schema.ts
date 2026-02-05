@@ -22,7 +22,7 @@ export class Photo {
   category: mongoose.Types.ObjectId;
 
   @Prop({ required: true })
-  dateOfRealization: Date; // realization date of the photo
+  dateOfRealization: Date;
 
   @Prop()
   description?: string;
