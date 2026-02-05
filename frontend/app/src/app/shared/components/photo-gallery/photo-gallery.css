@@ -127,9 +127,8 @@ h1 + h4 {
 
 /* détails: fond sombre/translucide */
 .photo-details {
-  background-color: rgba(255,255,255,0.02);
+  background-color: #1F1E1E;
   border-radius: 0.5rem;
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.6);
   padding: 2rem;
 }
 
