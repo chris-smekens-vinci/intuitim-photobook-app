@@ -10,8 +10,8 @@ describe('CategoryService', () => {
   const apiUrl = 'http://localhost:3000/api/categories';
 
   const categories: CategoryDto[] = [
-    { _id: 'cat-1', name: 'Nature' },
-    { _id: 'cat-2', name: 'Sport' },
+    { _id: '69837391e171e7b5e4dfce90', name: 'Animalier' },
+    { _id: '69837391e171e7b5e4dfce8f', name: 'Sport' },
   ];
 
   beforeEach(() => {
