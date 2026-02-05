@@ -1,2 +1,21 @@
 /* You can add global styles to this file, and also import other style files */
 /* Tailwind CSS Directives */
+
+html, body {
+  height: 100%;
+  margin: 0;
+  background-color: #1F1E1E; /* nouvelle couleur de fond */
+  background-attachment: fixed; /* effet parallaxe simple */
+  background-size: cover;
+  background-position: center;
+  color: #ffffff; /* texte blanc global */
+  font-family: 'Clash Display', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+}
+
+/* rendre les conteneurs transparents s'ils ont un fond blanc par défaut */
+.container, .app-root {
+  background: transparent !important;
+}

@@ -6,37 +6,45 @@ import {
   Param,
   Put,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { PhotosService } from './photos.service';
 import { CreatePhotoDto } from './dto/create-photo.dto';
 import { CreateCommentDto } from '../comments/dto/create-comment.dto';
+import { PhotoDto } from './dto/photo.dto';
 
 @Controller('photos')
 export class PhotosController {
   constructor(private readonly photosService: PhotosService) {}
 
   @Post()
-  create(@Body() createPhotoDto: CreatePhotoDto) {
+  create(@Body() createPhotoDto: CreatePhotoDto): Promise<PhotoDto> {
     return this.photosService.create(createPhotoDto);
   }
 
   @Get()
-  findAll() {
-    return this.photosService.findAll();
+  findAll(
+    @Query('categoryId') categoryId?: string,
+    @Query('includeDeleted') includeDeleted?: string,
+  ): Promise<PhotoDto[]> {
+    return this.photosService.findAll(includeDeleted === 'true', categoryId);
   }
 
   @Get(':id')
-  findById(@Param('id') id: string) {
+  findById(@Param('id') id: string): Promise<PhotoDto> {
     return this.photosService.findById(id);
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() updatePhotoDto: CreatePhotoDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updatePhotoDto: CreatePhotoDto,
+  ): Promise<PhotoDto> {
     return this.photosService.update(id, updatePhotoDto);
   }
 
   @Delete(':id')
-  delete(@Param('id') id: string) {
+  delete(@Param('id') id: string): Promise<PhotoDto> {
     return this.photosService.delete(id);
   }
 
@@ -44,12 +52,12 @@ export class PhotosController {
   addComment(
     @Param('id') id: string,
     @Body() createCommentDto: CreateCommentDto,
-  ) {
+  ): Promise<PhotoDto> {
     return this.photosService.addComment(id, createCommentDto);
   }
 
   @Get(':id/comments')
-  getComments(@Param('id') id: string) {
+  getComments(@Param('id') id: string): Promise<any[]> {
     return this.photosService.getComments(id);
   }
 }

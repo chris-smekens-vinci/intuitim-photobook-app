@@ -1,0 +1,108 @@
+<app-category-nav (categorySelected)="onCategorySelected($event)"></app-category-nav>
+
+<div class="container">
+  <h1>Intuitim PhotoBook</h1>
+  <h4>by Chris Smekens</h4>
+
+  <!-- Button to toggle showing deleted photos -->
+  <div class="filter-controls">
+    <button 
+      class="toggle-deleted-btn"
+      [class.active]="showDeleted"
+      (click)="toggleShowDeleted()"
+    >
+      {{ showDeleted ? 'Masquer supprimées' : 'Afficher supprimées' }}
+    </button>
+  </div>
+
+  <div *ngIf="loading" class="loading">
+    <p>Chargement des photos...</p>
+  </div>
+
+  <div *ngIf="error" class="error-message">
+    {{ error }}
+  </div>
+
+  <div *ngIf="!loading && photos.length > 0" class="gallery-container">
+    <!-- Galerie de vignettes -->
+    <div class="photo-gallery">
+      <div 
+        *ngFor="let photo of photos; trackBy: trackById" 
+        class="photo-card"
+        [class.selected]="selectedPhoto?._id === photo._id"
+        (click)="selectPhoto(photo)"
+      >
+        <img 
+          [src]="photo.url" 
+          [alt]="photo.title" 
+        />
+        <div class="photo-info">
+          <h2>{{ photo.title }}</h2>
+          <p class="photo-date">
+            {{ photo.dateOfRealization | date: 'dd/MM/yyyy' }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Détails de la photo sélectionnée -->
+    <div *ngIf="selectedPhoto" class="photo-details">
+      <img 
+        [src]="selectedPhoto.url" 
+        [alt]="selectedPhoto.title"
+        class="detail-image"
+      />
+      <div class="detail-info">
+        <h1>{{ selectedPhoto.title }}</h1>
+        <p class="detail-category">
+          <strong>Catégorie:</strong> {{ selectedPhoto.category.name }}
+        </p>
+        <p class="detail-date">
+          <strong>Date de réalisation:</strong> 
+          {{ selectedPhoto.dateOfRealization | date: 'dd/MM/yyyy' }}
+        </p>
+        <p *ngIf="selectedPhoto.description" class="detail-description">
+          <strong>Description:</strong> {{ selectedPhoto.description }}
+        </p>
+        <div class="detail-comments">
+          <strong>Commentaires:</strong>
+          <ul *ngIf="selectedPhoto.comments && selectedPhoto.comments.length > 0">
+            <li *ngFor="let comment of selectedPhoto.comments">
+              <p>{{ comment.content }}</p>
+              <small>{{ comment.createdAt | date: 'dd/MM/yyyy HH:mm' }}</small>
+            </li>
+          </ul>
+          <p *ngIf="!selectedPhoto.comments || selectedPhoto.comments.length === 0" class="no-comments">
+            Aucun commentaire pour le moment
+          </p>
+
+          <!-- Form to add a comment -->
+          <div class="comment-form">
+            <h3>Ajouter un commentaire</h3>
+            <form [formGroup]="commentForm">
+              <textarea
+                formControlName="content"
+                placeholder="Entrez votre commentaire (doit se terminer par . ! ou ?)"
+                class="comment-input"
+              ></textarea>
+              <div *ngIf="commentForm.get('content')?.hasError('missingPunctuation') && commentForm.get('content')?.touched" class="error-text">
+                Le commentaire doit se terminer par un point (.), un point d'exclamation (!) ou un point d'interrogation (?).
+              </div>
+              <button
+                (click)="addComment()"
+                [disabled]="commentForm.invalid"
+                class="submit-btn"
+              >
+                Ajouter le commentaire
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!loading && photos.length === 0" class="empty-state">
+    <p>Aucune photo disponible dans cette catégorie</p>
+  </div>
+</div>
