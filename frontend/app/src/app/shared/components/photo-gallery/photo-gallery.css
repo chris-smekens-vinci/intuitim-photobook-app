@@ -61,7 +61,7 @@ h1 + h4 {
   overflow-y: auto;
 }
 
-/* cartes : enlever blanc, conserver léger contraste */
+/* vignettes taille fixe */
 .photo-card {
   background-color: rgba(255,255,255,0.03);
   border-radius: 0.5rem;
@@ -70,14 +70,18 @@ h1 + h4 {
   cursor: pointer;
   transition: all 0.3s ease;
   border: 2px solid transparent;
-  position: relative; /* <-- ajouté pour overlay */
+  position: relative;
+  height: 200px;         /* hauteur fixe */
+  width: 100%;           /* occupe la largeur du conteneur */
+  flex: 0 0 auto;        /* empêche le redimensionnement dans le flux flex */
+  display: block;
 }
 
 /* ensure the image fills the card and stays visible */
 .photo-card img {
   display: block;
   width: 100%;
-  height: 200px;
+  height: 100%;          /* remplit la hauteur fixe de la carte */
   object-fit: cover;
   transition: transform 0.3s ease;
 }
@@ -274,5 +278,15 @@ h1 + h4 {
   .photo-card {
     flex-shrink: 0;
     width: 150px;
+  }
+}
+
+/* responsive: réduire la taille des vignettes sur petits écrans */
+@media (max-width: 480px) {
+  .photo-card {
+    height: 160px;
+  }
+  .photo-card img {
+    height: 100%;
   }
 }
