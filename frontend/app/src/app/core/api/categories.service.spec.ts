@@ -11,7 +11,7 @@ describe('CategoryService', () => {
 
   const categories: CategoryDto[] = [
     { _id: 'cat-1', name: 'Nature' },
-    { _id: 'cat-2', name: 'City' },
+    { _id: 'cat-2', name: 'Sport' },
   ];
 
   beforeEach(() => {
