@@ -1,11 +1,21 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { Photo, PhotoDocument } from './schemas/photo.schema';
 import { CreatePhotoDto } from './dto/create-photo.dto';
 import { CreateCommentDto } from '../comments/dto/create-comment.dto';
 import { PhotoDto } from './dto/photo.dto';
 import { Category } from '../categories/schemas/category.schema';
+
+type CategoryRef = Types.ObjectId | Category;
+
+type PhotoWithCategory = PhotoDocument & {
+  category: CategoryRef;
+};
+
+function isCategoryPopulated(cat: CategoryRef): cat is Category {
+  return typeof cat === 'object' && cat !== null && 'name' in cat;
+}
 
 @Injectable()
 export class PhotosService {
@@ -102,8 +112,8 @@ export class PhotosService {
     return photo?.comments ?? [];
   }
 
-  private mapToDto(photo: PhotoDocument): PhotoDto {
-    const category = photo.populated('category') as Category;
+  private mapToDto(photo: PhotoWithCategory): PhotoDto {
+    const cat = photo.category;
 
     return {
       _id: photo._id.toString(),
@@ -111,10 +121,10 @@ export class PhotosService {
       url: photo.url,
       dateOfRealization: photo.dateOfRealization,
       category: {
-        name: category?.name ?? 'Unknown',
+        name: isCategoryPopulated(cat) ? cat.name : 'Unknown',
       },
       description: photo.description,
-      comments: photo.comments || [],
+      comments: photo.comments ?? [],
     };
   }
 }
