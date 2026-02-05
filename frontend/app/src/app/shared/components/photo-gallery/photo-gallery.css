@@ -10,9 +10,17 @@ h1 {
   font-size: 3rem;
   font-weight: bold;
   text-align: center;
-  margin-bottom: 3rem;
   color: #ffffff; /* texte blanc */
   letter-spacing: -0.025em;
+}
+
+h1 + h4 {
+  text-align: center;
+  margin: 0.25rem 0 2rem;
+  color: rgba(255,255,255,0.75);
+  font-weight: 400;
+  font-size: 1rem;
+  letter-spacing: -0.01em;
 }
 
 /* états (chargement / vide) */
@@ -132,12 +140,12 @@ h1 {
   font-size: 2rem;
   margin-bottom: 1rem;
   text-align: left;
-  color: #ffffff; /* titre détail blanc */
+  color: #ffffff;
 }
 
 .detail-info p {
   margin-bottom: 1rem;
-  color: rgba(255,255,255,0.85); /* texte blanc doux */
+  color: rgba(255,255,255,0.85);
   line-height: 1.6;
 }
 
@@ -170,7 +178,7 @@ h1 {
 
 .comment-input:focus {
   outline: none;
-  border-color: #3b82f6;
+  border-color: #92A677;
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.06);
 }
 
@@ -178,13 +186,13 @@ h1 {
 .submit-btn {
   margin-top: 1rem;
   padding: 0.75rem 1.5rem;
-  background-color: #3b82f6;
+  background-color: #92A677;
   color: white;
   border: none;
 }
 
 .submit-btn:hover:not(:disabled) {
-  background-color: #2563eb;
+  background-color: #92A677;
 }
 
 .submit-btn:disabled {
