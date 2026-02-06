@@ -4,6 +4,7 @@ import { Category, CategorySchema } from './schemas/category.schema';
 import { CategoriesService } from './categories.service';
 import { CategoriesController } from './categories.controller';
 
+// The Module is the orchestrator of the DI container.
 @Module({
   imports: [
     MongooseModule.forFeature([
