@@ -8,10 +8,11 @@ import { PhotosService } from './photos.service';
 //constructor(@InjectModel(Photo.name) private photoModel: Model<PhotoDocument>) {}
 // ➜ À mocker : le Model Mongoose
 
-const mockFindExec = <T>(data: T) =>
-  ({ exec: jest.fn().mockResolvedValue(data) }) as unknown as ReturnType<
-    Model<PhotoDocument>['find']
-  >;
+const mockQuery = <T>(data: T) =>
+  ({
+    populate: jest.fn().mockReturnThis(),
+    exec: jest.fn().mockResolvedValue(data),
+  }) as unknown as ReturnType<Model<PhotoDocument>['find']>;
 
 describe('PhotosService', () => {
   let photosService: PhotosService;
@@ -40,11 +41,24 @@ describe('PhotosService', () => {
 
   describe('findAll', () => {
     it('should return an array of photos', async () => {
-      const mockPhotos = [{ title: 'Photo1' }, { title: 'Photo2' }];
-      jest.spyOn(photoModel, 'find').mockReturnValue(mockFindExec(mockPhotos));
+      const mockPhotos = [
+        {
+          _id: 'id1',
+          title: 'Photo1',
+          url: 'http://example.com/1.jpg',
+          dateOfRealization: new Date('2020-01-01'),
+        },
+        {
+          _id: 'id2',
+          title: 'Photo2',
+          url: 'http://example.com/2.jpg',
+          dateOfRealization: new Date('2021-01-01'),
+        },
+      ];
+      jest.spyOn(photoModel, 'find').mockReturnValue(mockQuery(mockPhotos));
 
       const photos = await photosService.findAll();
-      expect(photos).toEqual(mockPhotos);
+      expect(photos).toEqual(mockPhotos.map((p) => p));
     });
   });
 });
