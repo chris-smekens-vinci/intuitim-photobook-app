@@ -1,11 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
-export interface CategoryDto {
-  _id: string;
-  name: string;
-}
+import { CategoryDto } from '../models/types';
 
 // Without @Injectable(), Angular cannot create or inject this service.
 @Injectable({

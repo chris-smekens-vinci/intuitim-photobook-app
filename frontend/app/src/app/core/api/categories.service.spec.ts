@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-
-import { CategoryService, CategoryDto } from './categories.service';
+import { CategoryService } from './categories.service';
+import { CategoryDto } from '../models/types';
 
 describe('CategoryService', () => {
   let service: CategoryService;

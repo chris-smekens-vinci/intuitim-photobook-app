@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-
-import { PhotoService, PhotoDto } from './photos.service';
+import { PhotoService } from './photos.service';
+import { PhotoDto } from '../models/types';
 
 describe('PhotoService', () => {
   let service: PhotoService;
