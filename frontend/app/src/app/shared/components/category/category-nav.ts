@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CategoryService, CategoryDto } from '../../../core/api/categories.service';
+import { CategoryService } from '../../../core/api/categories.service';
+import { CategoryDto } from '../../../core/models/types';
 import { RouterModule } from '@angular/router';
 
 @Component({

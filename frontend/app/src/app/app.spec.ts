@@ -26,4 +26,12 @@ describe('App', () => {
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('h1')?.textContent).toContain('Intuitim PhotoBook');
   });
+
+  it('should render subtitle', () => {
+    const fixture = TestBed.createComponent(App);
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector('h4')?.textContent).toContain('by Chris Smekens');
+  });
 });
+

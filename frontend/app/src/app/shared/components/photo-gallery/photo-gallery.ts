@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { PhotoService, PhotoDto } from '../../../core/api/photos.service';
+import { PhotoService } from '../../../core/api/photos.service';
+import { PhotoDto } from '../../../core/models/types';
 import { CategoryNav } from '../category/category-nav';
 
+// Transform a Typescript class into an Angular component.
 @Component({
-  selector: 'app-photo-gallery',
+  selector: 'app-photo-gallery', // where to show this component
   templateUrl: './photo-gallery.html',
   styleUrls: ['./photo-gallery.css'],
   standalone: true,
@@ -76,6 +78,12 @@ export class PhotoGallery implements OnInit {
 
   addComment(): void {
     if (this.commentForm.invalid || !this.selectedPhoto) {
+      return;
+    }
+
+    // Vérifier si la photo est supprimée
+    if (this.selectedPhoto.isDeleted) {
+      this.error = 'Impossible d\'ajouter un commentaire à une photo supprimée';
       return;
     }
 
