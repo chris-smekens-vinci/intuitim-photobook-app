@@ -11,17 +11,17 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./app.css']
 })
 export class App implements OnInit {
-  // show splash par défaut true pour s'afficher immédiatement
+  // show splash by default true to display immediately
   showSplash = true;
 
   ngOnInit(): void {
     const seen = sessionStorage.getItem('splashSeen');
     if (seen) {
-      // si déjà vu, cacher tout de suite
+      // if seen, hide immediately
       this.showSplash = false;
       return;
     }
-    // sinon afficher pendant 3s puis marquer comme vu
+    // otherwise show for 3s then mark as seen
     setTimeout(() => {
       this.showSplash = false;
       sessionStorage.setItem('splashSeen', '1');
