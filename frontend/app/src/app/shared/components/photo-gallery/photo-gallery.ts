@@ -5,6 +5,7 @@ import { PhotoService } from '../../../core/api/photos.service';
 import { PhotoDto } from '../../../core/models/types';
 import { CategoryNav } from '../category/category-nav';
 
+// Transform a Typescript class into an Angular component.
 @Component({
   selector: 'app-photo-gallery',
   templateUrl: './photo-gallery.html',
