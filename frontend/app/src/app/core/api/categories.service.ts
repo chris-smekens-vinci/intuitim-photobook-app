@@ -7,6 +7,7 @@ export interface CategoryDto {
   name: string;
 }
 
+// Without @Injectable(), Angular cannot create or inject this service.
 @Injectable({
   providedIn: 'root',
 })
