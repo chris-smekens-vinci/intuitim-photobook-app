@@ -7,7 +7,7 @@ import { CategoryNav } from '../category/category-nav';
 
 // Transform a Typescript class into an Angular component.
 @Component({
-  selector: 'app-photo-gallery',
+  selector: 'app-photo-gallery', // where to show this component
   templateUrl: './photo-gallery.html',
   styleUrls: ['./photo-gallery.css'],
   standalone: true,
