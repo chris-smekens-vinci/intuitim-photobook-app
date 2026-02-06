@@ -34,7 +34,11 @@ describe('CategoriesController', () => {
       const mockCategories = [{ name: 'Category1' }, { name: 'Category2' }];
       jest
         .spyOn(categoriesService, 'findAll')
-        .mockResolvedValue(mockCategories as unknown as any);
+        .mockResolvedValue(
+          mockCategories as unknown as Awaited<
+            ReturnType<CategoriesService['findAll']>
+          >,
+        );
 
       const categories = await categoriesController.findAll();
       expect(categories).toEqual(mockCategories);
