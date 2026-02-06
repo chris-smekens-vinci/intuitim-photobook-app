@@ -77,7 +77,7 @@
           </p>
 
           <!-- Form to add a comment -->
-          <div class="comment-form">
+          <div class="comment-form" *ngIf="!selectedPhoto.isDeleted">
             <h3>Ajouter un commentaire</h3>
             <form [formGroup]="commentForm">
               <textarea
@@ -96,6 +96,11 @@
                 Ajouter le commentaire
               </button>
             </form>
+          </div>
+          
+          <!-- Message pour les photos supprimées -->
+          <div class="deleted-photo-message" *ngIf="selectedPhoto.isDeleted">
+            <p>Les commentaires ne sont pas autorisés sur les photos supprimées.</p>
           </div>
         </div>
       </div>

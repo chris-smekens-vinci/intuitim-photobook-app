@@ -79,6 +79,12 @@ export class PhotoGallery implements OnInit {
       return;
     }
 
+    // Vérifier si la photo est supprimée
+    if (this.selectedPhoto.isDeleted) {
+      this.error = 'Impossible d\'ajouter un commentaire à une photo supprimée';
+      return;
+    }
+
     const content = this.commentForm.get('content')?.value;
     this.photoService.addComment(this.selectedPhoto._id, content).subscribe({
       next: (updatedPhoto) => {
